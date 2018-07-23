@@ -191,4 +191,208 @@ class Person
 	- 操作符的优先级  
 	可以使用圆括号提高被括起来表达式的优先级  
 	- 同优先级操作符的运算顺序  
-	带有赋值功能的操作符的运算顺序是由右向左  
+	带有赋值功能的操作符的运算顺序是由右向左 
+- 基本操作符   
+	- 成员操作符'.'  
+	1、访问外层名称空间中的子集名称空间  
+	2、访问名称空间中的类型  
+	3、访问类型中的静态成员  
+	4、访问对象的成员（实例成员、方法）
+	
+	- 方法调用操作符'()'  
+	f'()'圆括号  
+	委托类Action 简接调用PrintHello这个方法,这时不需要()  
+	  //Action myAction = new Action(c.PrintHello);  
+	  //myAction();  
+	
+	- 元素访问操作符'[]'  
+	访问数组中的元素  
+	注意索引不一定都是整数  
+	访问字典中的元素  
+	
+	- typeof操作符  
+	查看一个类型的内部结构，属于的名称空间、类、名称、拥有的方法  
+	```
+	Type t = typeof(int);
+	Console.WriteLine(t.Namespaces);
+	Console.WriteLine(t.FullName);
+	Console.WriteLine(t.Name);
+	int c = t.GetMethods().Length;
+	foreach(var mi in t.GetMethods())
+	{
+	  Console.WriteLine(mi.Name);
+	}
+	Console.WriteLine(c);
+	```
+	- default操作符  
+	获取一个类型的默认值  
+	引用类型 NULL  
+	结构体  0  
+	枚举   
+	谁在第一个返回谁（谁是0返回谁）没有0返回0  
+	
+	```
+	enum Level
+	{
+	  Low,
+	  Mid,
+	  High
+	}
+	```
+	返回Low  
+	```
+	enum Level
+	{
+	  Low = 1;
+	  Mid = 0;
+	  High= 2;
+	}
+	```
+	返回Mid
+	```
+	enum Level
+	{
+	  Low = 1;
+	  Mid = 3;
+	  High= 2;
+	}
+	```
+	返回0
+	
+	- `new` 操作符    
+		- 在内存中构造一个类型实例并调用实例构造器    
+		如果左边有赋值符号，new操作符会把自己拿到的实例内存地址  
+		通过赋值操作符交给负责访问实例的引用变量   
+		`Form myForm = new Form();`  
+		- var关键字  
+	 	声明隐式类型变量 让编译器根据赋值来推断   
+	 	显式  告诉编译器这是什么类型   
+		- 2、调用实例的初始化器'{}'  
+		`Form myForm = new Form(){Text = "hello"};`  
+		- 3、`new Form() {Text = "hello"}.ShowDialog();`  
+		使用完就被垃圾收集器收走了  
+		- 语法糖衣   
+		```
+		int x = 100;
+		string name = "Tim";
+		```  
+		`new `操作符被隐藏起来了    
+	
+		- 为匿名类型创造对象 让编译器自己去推断类型  
+		`var person = new{Name="Mr.Okay",Age=34};`  
+	
+		- new的危险性  
+		会造成依赖和紧耦合  
+		设计模式，通过依赖注入设计模式，将紧耦合变松   
+	
+		- 继承中隐藏父类成员  
+		```
+		class Student
+		{
+	 	 	public void Report()
+	  		{
+	    		Console.WriteLine("I'm a student.");
+	  		}
+		}
+	
+		class CsStudent:Student
+		{
+	  		new public void Report()
+	  		{
+	   		 Console.WriteLine("I'm CS student");
+	  		}
+		}
+		```
+		
+		- `checked unchecked`操作符  
+		检查一个值在内存中是否有溢出  
+		`checked`表示要程序去检查是否有溢出  
+		`unchecked`表示不要程序去检查  
+		`OverflowException`异常   
+			
+		```
+		static void Main(string[] args)
+		{
+			uint x = uint.MaxValue;
+			Console.WriteLine(x);
+			string binStr = Convert.ToString(x,2);
+			Console.WriteLine(binStr);
+			unchecked/checked
+			{
+			    try
+			    {
+			        uint y = x + 1;
+			        Console.WriteLine(y);
+			    }
+			    catch(OverflowException ex)
+			    {
+			        Console.WriteLine("There's overflow!");
+			    }
+			}
+		}
+		```
+				
+		- delegate操作符  
+		lambda表达式替代了它这种功能  
+		常用于委托声明 委托匿名方法  
+		```
+		public partial class MainWindow:Window
+		{
+			public MainWindow()
+			{
+			    InitializeComponent();
+			    this.myButton.Click += myButton_Click;
+			}
+			
+			void myButton_Click(object sender,RoutedEventArgs e)
+			{
+			    this.myTextBox.Text = "Hello,World!";
+			}
+		}
+		```
+		匿名方法
+		```
+		public partial class MainWindow:Window
+		{
+			public MainWindow()
+			{
+			    InitializeComponent();
+			    this.myButton.Click += delegate(object sender,RoutedEventArgs e)
+			    {
+			        this.myTextBox.Text = "Hello,World!";
+			    };
+			} 
+		}
+		```
+		lamada表达式
+		```
+		public partial class MainWindow:Window
+		{
+			public MainWindow()
+			{
+			    InitializeComponent();
+			    this.myButton.Click += (sender, e)=>
+			    {
+			      this.myTextBox.Text = "Hello,World!";
+			    };
+			} 
+		}
+		```	
+	- sizeof操作符   
+	获取对象在内存中所占字节数  
+	两点注意  
+		- 1、只能获取基本数据类型实例在内存所占的字节数  结构体数据类型 string object不是结构体
+		- 2、非默认情况下，可以获取自定义结构体类型实例在内存中所占的字节数 但只能放在unsafe条件下  
+		```
+		decimal           //占16字节
+		double            //   8
+		struct Student    //  16
+		{
+			int ID;
+			long Score;
+		}
+		```
+		
+	- ->(箭头)操作符  
+	 不安全上下文中   
+	在`C#`中,指针操作,只能操作**结构体**中的数据
