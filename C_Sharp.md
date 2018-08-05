@@ -1912,3 +1912,56 @@ namespace practice
 包装器永远都不可能是被包装的东西
 
 
+23  
+类声明  
+- 类修饰符 *class-modifier*  
+```
+new
+public
+protected
+internal
+private
+abstract
+sealed
+static
+```
+
+24  
+- 是一个 is  子类的实例是基类的实例  
+小知识点  
+1、sealed关键字  封闭类  
+2、一个类最多有一个基类但是可以实现多个基接口  
+C++一个类可以有多个基类，菱形继承？？？  
+3、子类的访问级别不能超过父类的访问级别  
+internal 访问级别，程序集级别  
+
+- 继承的本质  
+派生类在基类已有的成员的基础之上，对基类进行的横向和纵向上的扩展  
+只能扩展不能删减  
+横向 类成员在数量上的扩充  变胖了  
+纵向 对类成员的版本进行扩充 旧版本在上，新版本在下   
+
+
+- 静态语言  
+c++ c# java  
+
+- 动态语言  
+Python JavaScript  
+
+1、  
+base 和 this   
+base 向上一级  
+
+2、  
+实例构造器是不被继承的  
+
+3、类成员的访问级别  
+类成员的访问级别是以类的访问级别为上限的  
+internal 访问级别，程序集级别  
+private 最低的访问级别，类的类体里  默认的访问级别  
+protected 子类可以调用 跨程序集的  
+internal protected 程序集和子类都可以调用  
+
+- 面向对象的实现风格  
+Class-based  
+Prototype-based  JavaScript  
