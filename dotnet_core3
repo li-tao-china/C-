@@ -1,0 +1,7 @@
+#dotnet core 3.0 来了 支持WPF  
+记录下怎么利用dotnet core3 sdk 开发wpf应用程序，简单方便  
+# 去GitHub 下载dotnet core 3 的sdk， 安装。  
+# 下载安装VS code  
+# 在dotnet3 根目录下调用cmd命令行窗口，新建wpf工程  
+`dotnet new WPF --name helloWPF`  
+# 在helloWPF文件夹中，右键用VS code 打开编辑即可。  
